@@ -17,15 +17,14 @@ Component ShowDiamond(string& display_name, string& temp_name) {
     ConsoleToWindow_Diamond(string& display_name, string& temp_name)
         : inner_Data(display_name), console_Code(temp_name) {
       InputOption EnterEndType;
-      Add(input_Module);
-      hint_Text = "Please type an odd number\n";
-      input_Module = Input(&console_Code, "Console", EnterEndType);
-
       EnterEndType.on_enter = [&] {
         inner_Data = SnowFlake(console_Code);
         console_Code.clear();
         hint_Text = "";
       };
+      hint_Text = "Please type an odd number\n";
+      input_Module = Input(&console_Code, "Console", EnterEndType);
+      Add(input_Module);
     }
 
     Element Render() override {
