@@ -3,18 +3,15 @@
 #include <random>
 #include <string>
 
-using namespace ftxui;
-using namespace std;
+std::string Dice(const std::string& diceCode);
+std::string SnowFlake(const std::string& maxLength);
 
-string Dice(const string& diceCode);
-string SnowFlake(const string& maxLength);
-
-Component ShowDiamond(string& display_name, string& temp_name) {
-  class ConsoleToWindow_Diamond : public ComponentBase {
+ftxui::Component ShowDiamond(std::string& display_name, std::string& temp_name) {
+  class ConsoleToWindow_Diamond : public ftxui::ComponentBase {
    public:
-    ConsoleToWindow_Diamond(string& display_name, string& temp_name)
+    ConsoleToWindow_Diamond(std::string& display_name, std::string& temp_name)
         : inner_Data(display_name), console_Code(temp_name) {
-      InputOption EnterEndType;
+      ftxui::InputOption EnterEndType;
       EnterEndType.on_enter = [&] {
         inner_Data = SnowFlake(console_Code);
         console_Code.clear();
@@ -25,44 +22,47 @@ Component ShowDiamond(string& display_name, string& temp_name) {
       Add(input_Module);
     }
 
-    Element Render() override {
-      vector<std::string> lines;  // 多行文字转化⬇
-      string delimiter = "\n";
+    ftxui::Element Render() override {
+      std::vector<std::string> lines;  // 多行文字转化⬇
+      std::string delimiter = "\n";
       size_t pos;
-      string process_data = inner_Data;
+      std::string process_data = inner_Data;
       while ((pos = process_data.find(delimiter)) != std::string::npos) {
         lines.push_back(process_data.substr(0, pos));
         process_data.erase(0, pos + delimiter.length());
       }
       lines.push_back(process_data);
 
-      vector<Element> elements;
+      std::vector<ftxui::Element> elements;
       elements.reserve(lines.size());
-      for (const string& line : lines) {
-        elements.push_back(text(line));
+      for (const std::string& line : lines) {
+        elements.push_back(ftxui::text(line));
       }  // 多行文字转化⬆
 
-      return vbox({vbox(elements) | flex, separator(), text(hint_Text), input_Module->Render()}) | border;
+      return ftxui::vbox(
+                 {vbox(elements) | ftxui::flex, ftxui::separator(), ftxui::text(hint_Text), input_Module->Render()}) |
+             ftxui::border;
     }
 
    private:
-    string& inner_Data;
-    string& console_Code;
-    string hint_Text;
-    Component input_Module;
+    std::string& inner_Data;
+    std::string& console_Code;
+    std::string hint_Text;
+    ftxui::Component input_Module;
   };
-  return Make<ConsoleToWindow_Diamond>(display_name, temp_name);
+  return ftxui::Make<ConsoleToWindow_Diamond>(display_name, temp_name);
 }
 
 // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字。
-Component DndDice(string& display_name, string& temp_name) {
+ftxui::Component DndDice(std::string& display_name, std::string& temp_name) {
   // 创建一个自定义的组件Impl，继承自ComponentBase。
-  class ConsoleToWindow_Dice : public ComponentBase {
+  class ConsoleToWindow_Dice : public ftxui::ComponentBase {
    public:
     // 构造函数，初始化内部组件。
-    ConsoleToWindow_Dice(string& display_name, string& temp_name) : inner_Data(display_name), console_Code(temp_name) {
+    ConsoleToWindow_Dice(std::string& display_name, std::string& temp_name)
+        : inner_Data(display_name), console_Code(temp_name) {
       // 配置输入选项。
-      InputOption input_option;
+      ftxui::InputOption input_option;
       // 当用户按下Enter键时，将temp_name的值赋给display_name并清除temp_name。
       input_option.on_enter = [&] {
         inner_Data = Dice(console_Code);
@@ -74,28 +74,28 @@ Component DndDice(string& display_name, string& temp_name) {
     }
 
     // 重写Render函数，用于渲染组件。
-    Element Render() override {
-      return vbox({// 显示当前的名字。
-                   text("Hello " + inner_Data) | flex,
-                   // 添加分隔线。
-                   separator(),
-                   // 输入提示文本。
-                   text("Enter your name below:"),
-                   // 渲染输入组件。
-                   input_module->Render()}) |
-             border;  // 添加边框。
+    ftxui::Element Render() override {
+      return ftxui::vbox({// 显示当前的名字。
+                          ftxui::text("Hello " + inner_Data) | ftxui::flex,
+                          // 添加分隔线。
+                          ftxui::separator(),
+                          // 输入提示文本。
+                          ftxui::text("Enter your name below:"),
+                          // 渲染输入组件。
+                          input_module->Render()}) |
+             ftxui::border;  // 添加边框。
     }
 
    private:
     // 私有变量：用于存储和显示名字。
-    string& inner_Data;
-    string& console_Code;
+    std::string& inner_Data;
+    std::string& console_Code;
     // 输入组件。
-    Component input_module;
+    ftxui::Component input_module;
   };
 
   // 返回新创建的Impl组件。
-  return Make<ConsoleToWindow_Dice>(display_name, temp_name);
+  return ftxui::Make<ConsoleToWindow_Dice>(display_name, temp_name);
 }
 
 int main() {
@@ -110,7 +110,7 @@ int main() {
   auto window_content_514 = ShowDiamond(display_name_514, temp_name_514);
 
   // 定义两个窗口，并设置其位置、大小和标题。
-  auto window_114 = Window({
+  auto window_114 = ftxui::Window({
       .inner = window_content_114,
       .title = "Window114",
       .left = 20,
@@ -119,7 +119,7 @@ int main() {
       .height = 20,
   });
 
-  auto window_514 = Window({
+  auto window_514 = ftxui::Window({
       .inner = window_content_514,
       .title = "Window514",
       .left = 70,
@@ -129,31 +129,31 @@ int main() {
   });
 
   // 创建一个容器并将两个窗口加入其中。
-  auto window_container = Container::Stacked({
+  auto window_container = ftxui::Container::Stacked({
       window_114,
       window_514,
   });
 
   // 创建全屏的交互式屏幕并运行主循环。
-  auto screen = ScreenInteractive::Fullscreen();
+  auto screen = ftxui::ScreenInteractive::Fullscreen();
   screen.Loop(window_container);
 
   return EXIT_SUCCESS;
 }
 
 int RandCIM(int randMin, int randMax) {
-  random_device rd;                                   // 用于获得真随机数的种子
-  mt19937 gen(rd());                                  // 使用Mersenne Twister算法的伪随机数生成器
-  uniform_int_distribution<> dist(randMin, randMax);  // 均匀分布的随机数，范围从1到6
+  std::random_device rd;                                   // 用于获得真随机数的种子
+  std::mt19937 gen(rd());                                  // 使用Mersenne Twister算法的伪随机数生成器
+  std::uniform_int_distribution<> dist(randMin, randMax);  // 均匀分布的随机数，范围从1到6
   return dist(gen);
 }
 
-string Dice(const string& diceCode) {
+std::string Dice(const std::string& diceCode) {
   int dLocation;
   int diceAmount;
   int diceSides;
   int diceResult = 0;
-  string finalResult;
+  std::string finalResult;
 
   dLocation = int(diceCode.find('d'));
   if (dLocation < 100 && dLocation > 0) {
@@ -165,19 +165,19 @@ string Dice(const string& diceCode) {
       // cout << result << "\n";
     }
     // cout << "您要的" << diceAmount << "个" << diceSides << "面骰的计算结果为:";
-    finalResult = to_string(diceResult);
+    finalResult = std::to_string(diceResult);
   } else {
     finalResult = "ERROR";
   }
   return finalResult;
 }
 
-string SnowFlake(const string& maxLength) {
+std::string SnowFlake(const std::string& maxLength) {
   int maxLength_i = stoi(maxLength);
   int midLength = (maxLength_i - 1) / 2;
-  string spaceString;
-  string snowflakeString = "*";
-  string output;
+  std::string spaceString;
+  std::string snowflakeString = "*";
+  std::string output;
 
   for (int i = 0; i <= midLength; i++) {
     spaceString += " ";
