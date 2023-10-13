@@ -1,7 +1,5 @@
-#include <ftxui/component/captured_mouse.hpp>
 #include <ftxui/component/component.hpp>
 #include <ftxui/component/screen_interactive.hpp>
-#include <ftxui/dom/elements.hpp>
 #include <random>
 #include <string>
 
@@ -9,28 +7,29 @@ using namespace ftxui;
 using namespace std;
 
 string Dice(const string& diceCode);
-string SnowFlake(string maxLength);
+string SnowFlake(const string& maxLength);
 
 Component ShowDiamond(string& display_name, string& temp_name) {
   class ConsoleToWindow_Diamond : public ComponentBase {
    public:
     ConsoleToWindow_Diamond(string& display_name, string& temp_name)
         : inner_Data(display_name), console_Code(temp_name) {
-      InputOption inputOption;
+      InputOption EnterEndType;
+      Add(input_Module);
       hint_Text = "Please type an odd number\n";
-      inputOption.on_enter = [&] {
+      input_Module = Input(&console_Code, "Console", EnterEndType);
+
+      EnterEndType.on_enter = [&] {
         inner_Data = SnowFlake(console_Code);
         console_Code.clear();
         hint_Text = "";
       };
-      input_Module = Input(&console_Code, "Console", inputOption);
-      Add(input_Module);
     }
 
     Element Render() override {
       vector<std::string> lines;  // 多行文字转化⬇
       string delimiter = "\n";
-      size_t pos = 0;
+      size_t pos;
       string process_data = inner_Data;
       while ((pos = process_data.find(delimiter)) != std::string::npos) {
         lines.push_back(process_data.substr(0, pos));
@@ -39,7 +38,8 @@ Component ShowDiamond(string& display_name, string& temp_name) {
       lines.push_back(process_data);
 
       vector<Element> elements;
-      for (const auto& line : lines) {
+      elements.reserve(lines.size());
+      for (const string& line : lines) {
         elements.push_back(text(line));
       }  // 多行文字转化⬆
 
@@ -173,7 +173,7 @@ string Dice(const string& diceCode) {
   return finalResult;
 }
 
-string SnowFlake(string maxLength) {
+string SnowFlake(const string& maxLength) {
   int maxLength_i = stoi(maxLength);
   int midLength = (maxLength_i - 1) / 2;
   string spaceString;
@@ -184,7 +184,7 @@ string SnowFlake(string maxLength) {
     spaceString += " ";
   }
   for (int i = 0; i < midLength; i++) {
-    output += (spaceString + snowflakeString + spaceString + "\n");
+    output.append(spaceString).append(snowflakeString).append(spaceString).append("\n");
     spaceString.pop_back();
     snowflakeString += "**";
   }
@@ -195,7 +195,7 @@ string SnowFlake(string maxLength) {
     snowflakeString.pop_back();
     snowflakeString.pop_back();
     spaceString += " ";
-    output += (spaceString + snowflakeString + spaceString + "\n");
+    output.append(spaceString).append(snowflakeString).append(spaceString).append("\n");
   }
 
   return output;
