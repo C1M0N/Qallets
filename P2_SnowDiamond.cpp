@@ -28,26 +28,11 @@ ftxui::Component ShowDiamond(
     }
 
     ftxui::Element Render() override {
-      std::vector<std::string> lines;  /// 多行文字转化
-      std::string delimiter = "\n";
-      size_t pos;
-      std::string process_data = inner_Data;
-      while ((pos = process_data.find(delimiter)) != std::string::npos) {
-        lines.push_back(process_data.substr(0, pos));
-        process_data.erase(0, pos + delimiter.length());
-      }
-      lines.push_back(process_data);
-      std::vector<ftxui::Element> elements;
-      elements.reserve(lines.size());
-      for (const std::string& line : lines) {
-        elements.push_back(ftxui::text(line));
-      }
-
-      return ftxui::vbox({vbox(elements) | ftxui::flex,  // 显示菱形
-                          ftxui::separator(),            // 添加分隔线
-                          ftxui::text(hint_Text),        // 在输入组件上显示提示文本
-                          input_Module->Render()}) |     // 渲染输入组件
-             ftxui::border;                              // 添加边框
+      return ftxui::vbox({vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
+                          ftxui::separator(),                              // 添加分隔线
+                          ftxui::text(hint_Text),                          // 在输入组件上显示提示文本
+                          input_Module->Render()}) |                       // 渲染输入组件
+             ftxui::border;                                                // 添加边框
     }
 
    private:  /// 私有变量：用于存储和显示数据
@@ -85,4 +70,25 @@ std::string SnowFlake(const std::string& maxLength) {
   }
 
   return output;
+}
+
+std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText) {
+  size_t pos;
+  std::string process_data = originalText;
+  std::string line_breaker = "\n";
+  std::vector<std::string> vectorize_lines;
+  std::vector<ftxui::Element> ftxui_lines;
+
+  while ((pos = process_data.find(line_breaker)) != std::string::npos) {
+    vectorize_lines.push_back(process_data.substr(0, pos));
+    process_data.erase(0, pos + line_breaker.length());
+  }
+  vectorize_lines.push_back(process_data);
+
+  ftxui_lines.reserve(vectorize_lines.size());
+  for (const std::string& iterated_line : vectorize_lines) {
+    ftxui_lines.push_back(ftxui::text(iterated_line));
+  }
+
+  return ftxui_lines;
 }

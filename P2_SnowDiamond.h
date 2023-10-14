@@ -12,5 +12,6 @@
 ftxui::Component ShowDiamond(std::string& display_name, std::string& temp_name);
 
 std::string SnowFlake(const std::string& maxLength);
+std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText);
 
 #endif  // QALLETS_P2_SNOWDIAMOND_H
