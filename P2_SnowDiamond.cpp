@@ -28,11 +28,11 @@ ftxui::Component ShowDiamond(
     }
 
     ftxui::Element Render() override {
-      return ftxui::vbox({vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
-                          ftxui::separator(),                              // 添加分隔线
-                          ftxui::text(hint_Text),                          // 在输入组件上显示提示文本
-                          input_Module->Render()}) |                       // 渲染输入组件
-             ftxui::border;                                                // 添加边框
+      return ftxui::vbox({ftxui::vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
+                          ftxui::separator(),                                     // 添加分隔线
+                          ftxui::text(hint_Text),     // 在输入组件上显示提示文本
+                          input_Module->Render()}) |  // 渲染输入组件
+             ftxui::border;                           // 添加边框
     }
 
    private:  /// 私有变量：用于存储和显示数据
@@ -45,12 +45,13 @@ ftxui::Component ShowDiamond(
 }
 
 std::string SnowFlake(const std::string& maxLength) {
-  int maxLength_i = stoi(maxLength);
-  int midLength = (maxLength_i - 1) / 2;  // 计算出多少次循环后应该反转过程
   std::string spaceString;
   std::string snowflakeString = "*";
+
   std::string output;
 
+  int maxLength_i = stoi(maxLength);
+  int midLength = (maxLength_i - 1) / 2;  // 计算出多少次循环后应该反转过程
   for (int i = 0; i <= midLength; i++) {  /// 先求得单边空格最大值
     spaceString += " ";
   }
@@ -73,21 +74,25 @@ std::string SnowFlake(const std::string& maxLength) {
 }
 
 std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText) {
-  size_t pos;
-  std::string process_data = originalText;
+  std::string process_data = originalText;  // 拷贝待处理字符串
+
+  size_t line_breaker_pos;
   std::string line_breaker = "\n";
   std::vector<std::string> vectorize_lines;
-  std::vector<ftxui::Element> ftxui_lines;
 
-  while ((pos = process_data.find(line_breaker)) != std::string::npos) {
-    vectorize_lines.push_back(process_data.substr(0, pos));
-    process_data.erase(0, pos + line_breaker.length());
+  std::vector<ftxui::Element> ftxui_lines;  // 符合FTXUI规范的"多行文本"元素
+
+  /// 将单个长多行字符串转化为向量字符串
+  while ((line_breaker_pos = process_data.find(line_breaker)) != std::string::npos) {  // 寻找法定换行符
+    vectorize_lines.push_back(process_data.substr(0, line_breaker_pos));  // 换行符前赋给向量字符串
+    process_data.erase(0, line_breaker_pos + line_breaker.length());      // 删去处理完的字符串
   }
-  vectorize_lines.push_back(process_data);
+  vectorize_lines.push_back(process_data);  // 向向量字符串加入最后一个换行符后的文本
 
-  ftxui_lines.reserve(vectorize_lines.size());
+  /// 将向量字符串转化为"多行文本"元素
+  ftxui_lines.reserve(vectorize_lines.size());  // 预先留出向量字符串数量的内存空间
   for (const std::string& iterated_line : vectorize_lines) {
-    ftxui_lines.push_back(ftxui::text(iterated_line));
+    ftxui_lines.push_back(ftxui::text(iterated_line));  // 向向量型元素内注入每个单行FTXUI文本
   }
 
   return ftxui_lines;

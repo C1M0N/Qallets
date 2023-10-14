@@ -39,16 +39,17 @@ ftxui::Component DndDice(
 }
 
 std::string Dice(const std::string& diceCode) {
-  int dLocation;
+  size_t dice_pos;
   int diceAmount;
   int diceSides;
   int diceResult = 0;
+
   std::string finalResult;
 
-  dLocation = int(diceCode.find('d'));
-  if (dLocation > 0) {                                 // 检测d是否存在并且是否位置合理
-    diceAmount = stoi(diceCode.substr(0, dLocation));  // 将d前的数赋给骰子数变量
-    diceSides = stoi(diceCode.substr(dLocation + 1));  // 将d后的数赋给骰子面数变量
+  dice_pos = int(diceCode.find('d'));
+  if (dice_pos > 0) {                                 // 检测d是否存在并且是否位置合理
+    diceAmount = stoi(diceCode.substr(0, dice_pos));  // 将d前的数赋给骰子数变量
+    diceSides = stoi(diceCode.substr(dice_pos + 1));  // 将d后的数赋给骰子面数变量
     for (int i = 0; i < diceAmount; i++) {  /// 用真随机数生成器生成骰子数个[1,骰子面数]随机数后求和
       int result = RandCIM(1, diceSides);
       diceResult += result;
