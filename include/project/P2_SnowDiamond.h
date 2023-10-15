@@ -28,6 +28,5 @@ class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
 
 ftxui::Component ShowDiamond();
 std::string SnowFlake(const std::string& maxLength);
-std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText);
 
 #endif  // QALLETS_P2_SNOWDIAMOND_H

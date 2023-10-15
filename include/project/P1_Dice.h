@@ -9,6 +9,21 @@
 #include <random>
 #include <string>
 
+class ConsoleToWindow_DndDice : public ftxui::ComponentBase{
+ public:
+  ConsoleToWindow_DndDice();
+
+  ftxui::Element Render() override;
+
+ private:
+  std::string console_Code;
+  std::string inner_Data;
+  std::string hint_Text;
+  ftxui::Component input_Module;
+  ftxui::InputOption EnterEndType;
+
+};
+
 ftxui::Component DndDice();
 
 std::string Dice(const std::string& diceCode);

@@ -4,35 +4,32 @@
 
 #include "../../include/project/P1_Dice.h"
 
-ftxui::Component DndDice() {  // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字
-  class ConsoleToWindow_Dice
-      : public ftxui::ComponentBase {  // 创建一个自定义的组件ConsoleToWindow_Dice，继承自ComponentBase。
-   public:
-    ConsoleToWindow_Dice(){  // 构造函数，初始化内部组件
-      ftxui::InputOption EnterEndType;                         // 配置输入选项
-      EnterEndType.on_enter = [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code
-        inner_Data = Dice(console_Code);
-        console_Code.clear();
-      };
-      input_module = Input(&console_Code, "Console", EnterEndType);  // 创建输入组件并添加到当前组件
-      Add(input_module);
-    }
+/// 窗口运行逻辑
+ConsoleToWindow_DndDice::ConsoleToWindow_DndDice() {
+  hint_Text = "请输入骰子代码\n";
 
-    ftxui::Element Render() override {                                       // 重写Render函数，用于渲染组件
-      return ftxui::vbox({ftxui::text("Hello " + inner_Data) | ftxui::flex,  // 显示当前的名字
-                          ftxui::separator(),                                // 添加分隔线
-                          ftxui::text("Enter your name below:"),             // 输入提示文本
-                          input_module->Render()}) |                         // 渲染输入组件
-             ftxui::border;                                                  // 添加边框
-    }
-
-   private:  /// 私有变量：用于存储和显示数据
-    std::string inner_Data;
-    std::string console_Code;
-    ftxui::Component input_module;  // 输入组件
+  EnterEndType.on_enter = [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
+    inner_Data = Dice(console_Code);
+    console_Code.clear();
+    hint_Text.clear();
   };
 
-  return ftxui::Make<ConsoleToWindow_Dice>();  // 返回新创建的ConsoleToWindow_Dice组件
+  input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
+  Add(input_Module);
+}
+
+/// 窗口渲染
+ftxui::Element ConsoleToWindow_DndDice::Render() {
+  return ftxui::vbox({ftxui::text(inner_Data) | ftxui::flex,  // 显示菱形
+                      ftxui::separator(),                                     // 添加分隔线
+                      ftxui::text(hint_Text),                                 // 在输入组件上显示提示文本
+                      input_Module->Render()}) |                              // 渲染输入组件
+         ftxui::border;                                                       // 添加边框
+}
+
+/// 提交组件
+ftxui::Component DndDice() {  // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字
+  return ftxui::Make<ConsoleToWindow_DndDice>();  // 返回新创建的ConsoleToWindow_Dice组件
 }
 
 std::string Dice(const std::string& diceCode) {
@@ -52,7 +49,7 @@ std::string Dice(const std::string& diceCode) {
       diceResult += result;
     }
     finalResult = "您要的" + std::to_string(diceAmount) + "个" + std::to_string(diceSides) +
-                  "面骰的计算结果为: " + std::to_string(diceResult);
+                  "面骰的计算结果为:" + std::to_string(diceResult);
   } else {
     finalResult = "ERROR";
   }

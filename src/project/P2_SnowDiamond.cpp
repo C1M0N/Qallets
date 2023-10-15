@@ -3,7 +3,10 @@
 //
 
 #include "../../include/project/P2_SnowDiamond.h"
+#include "../../include/tool/FtxuiTools.h"
 
+
+/// 窗口运行逻辑
 ConsoleToWindow_Diamond::ConsoleToWindow_Diamond() {
   hint_Text = "Please type an odd number\n";
 
@@ -17,18 +20,21 @@ ConsoleToWindow_Diamond::ConsoleToWindow_Diamond() {
   Add(input_Module);
 }
 
+/// 窗口渲染
 ftxui::Element ConsoleToWindow_Diamond::Render() {
-  return ftxui::vbox({ftxui::vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
+  return ftxui::vbox({ftxui::vbox(LsKu::FTxT::MultiLine(inner_Data)) | ftxui::flex,  // 显示菱形
                       ftxui::separator(),                                     // 添加分隔线
                       ftxui::text(hint_Text),                                 // 在输入组件上显示提示文本
                       input_Module->Render()}) |                              // 渲染输入组件
          ftxui::border;                                                       // 添加边框
 }
 
+/// 提交组件
 ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
   return ftxui::Make<ConsoleToWindow_Diamond>();  // 返回新创建的ConsoleToWindow_Diamond组件
 }
 
+/// SnowDiamond函数实现
 std::string SnowFlake(const std::string& maxLength) {
   std::string spaceString;
   std::string snowflakeString = "*";
@@ -56,29 +62,4 @@ std::string SnowFlake(const std::string& maxLength) {
   }
 
   return output;
-}
-
-std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText) {
-  std::string process_data = originalText;  // 拷贝待处理字符串
-
-  size_t line_breaker_pos;
-  std::string line_breaker = "\n";
-  std::vector<std::string> vectorize_lines;
-
-  std::vector<ftxui::Element> ftxui_lines;  // 符合FTXUI规范的"多行文本"元素
-
-  /// 将单个长多行字符串转化为向量字符串
-  while ((line_breaker_pos = process_data.find(line_breaker)) != std::string::npos) {  // 寻找法定换行符
-    vectorize_lines.push_back(process_data.substr(0, line_breaker_pos));  // 换行符前赋给向量字符串
-    process_data.erase(0, line_breaker_pos + line_breaker.length());      // 删去处理完的字符串
-  }
-  vectorize_lines.push_back(process_data);  // 向向量字符串加入最后一个换行符后的文本
-
-  /// 将向量字符串转化为"多行文本"元素
-  ftxui_lines.reserve(vectorize_lines.size());  // 预先留出向量字符串数量的内存空间
-  for (const auto& iterated_line : vectorize_lines) {
-    ftxui_lines.push_back(ftxui::text(iterated_line));  // 向向量型元素内注入每个单行FTXUI文本
-  }
-
-  return ftxui_lines;
 }

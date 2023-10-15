@@ -10,7 +10,9 @@ add_executable(Qallets src/main.cpp
         include/project/P2_SnowDiamond.h
         include/main.h
         src/tool/ConsoleToWindow.cpp
-        include/tool/ConsoleToWindow.h)
+        include/tool/ConsoleToWindow.h
+        src/tool/FtxuiTools.cpp
+        include/tool/FtxuiTools.h)
 
 
 
