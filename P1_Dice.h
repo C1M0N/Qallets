@@ -9,7 +9,7 @@
 #include <random>
 #include <string>
 
-ftxui::Component DndDice(std::string& display_name, std::string& temp_name);
+ftxui::Component DndDice();
 
 std::string Dice(const std::string& diceCode);
 int RandCIM(int randMin, int randMax);

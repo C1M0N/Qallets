@@ -4,14 +4,11 @@
 
 #include "P1_Dice.h"
 
-ftxui::Component DndDice(
-    std::string& display_name,
-    std::string& temp_name) {  // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字
+ftxui::Component DndDice() {  // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字
   class ConsoleToWindow_Dice
       : public ftxui::ComponentBase {  // 创建一个自定义的组件ConsoleToWindow_Dice，继承自ComponentBase。
    public:
-    ConsoleToWindow_Dice(std::string& display_name, std::string& temp_name)
-        : inner_Data(display_name), console_Code(temp_name) {  // 构造函数，初始化内部组件
+    ConsoleToWindow_Dice(){  // 构造函数，初始化内部组件
       ftxui::InputOption EnterEndType;                         // 配置输入选项
       EnterEndType.on_enter = [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code
         inner_Data = Dice(console_Code);
@@ -30,12 +27,12 @@ ftxui::Component DndDice(
     }
 
    private:  /// 私有变量：用于存储和显示数据
-    std::string& inner_Data;
-    std::string& console_Code;
+    std::string inner_Data;
+    std::string console_Code;
     ftxui::Component input_module;  // 输入组件
   };
 
-  return ftxui::Make<ConsoleToWindow_Dice>(display_name, temp_name);  // 返回新创建的ConsoleToWindow_Dice组件
+  return ftxui::Make<ConsoleToWindow_Dice>();  // 返回新创建的ConsoleToWindow_Dice组件
 }
 
 std::string Dice(const std::string& diceCode) {

@@ -4,14 +4,11 @@
 
 #include "P2_SnowDiamond.h"
 
-ftxui::Component ShowDiamond(
-    std::string& display_name,
-    std::string& temp_name) {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
+ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
   class ConsoleToWindow_Diamond
       : public ftxui::ComponentBase {  // 创建一个自定义的组件ConsoleToWindow_Diamond，继承自ComponentBase。
    public:
-    ConsoleToWindow_Diamond(std::string& display_name, std::string& temp_name)
-        : inner_Data(display_name), console_Code(temp_name) {  // 构造函数，初始化内部组件。
+    ConsoleToWindow_Diamond(){  // 构造函数，初始化内部组件。
 
       hint_Text = "Please type an odd number\n";  // 配置提示文字
 
@@ -20,7 +17,7 @@ ftxui::Component ShowDiamond(
           [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
             inner_Data = SnowFlake(console_Code);
             console_Code.clear();
-            hint_Text = "";
+            hint_Text.clear();
           };
 
       input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
@@ -36,12 +33,12 @@ ftxui::Component ShowDiamond(
     }
 
    private:  /// 私有变量：用于存储和显示数据
-    std::string& inner_Data;
-    std::string& console_Code;
+    std::string inner_Data;
+    std::string console_Code;
     std::string hint_Text;
     ftxui::Component input_Module;  // 输入组件
   };
-  return ftxui::Make<ConsoleToWindow_Diamond>(display_name, temp_name);  // 返回新创建的ConsoleToWindow_Diamond组件
+  return ftxui::Make<ConsoleToWindow_Diamond>();  // 返回新创建的ConsoleToWindow_Diamond组件
 }
 
 std::string SnowFlake(const std::string& maxLength) {
@@ -91,7 +88,7 @@ std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText) {
 
   /// 将向量字符串转化为"多行文本"元素
   ftxui_lines.reserve(vectorize_lines.size());  // 预先留出向量字符串数量的内存空间
-  for (const std::string& iterated_line : vectorize_lines) {
+  for (const auto& iterated_line : vectorize_lines) {
     ftxui_lines.push_back(ftxui::text(iterated_line));  // 向向量型元素内注入每个单行FTXUI文本
   }
 

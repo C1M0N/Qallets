@@ -11,8 +11,8 @@ int main() {
   std::string display_name_514;
   std::string temp_name_514;
 
-  auto window_content_114 = DndDice(display_name_114, temp_name_114);  /// 使用前面定义的函数为两个窗口创建内容
-  auto window_content_514 = ShowDiamond(display_name_514, temp_name_514);
+  auto window_content_114 = DndDice();  /// 使用前面定义的函数为两个窗口创建内容
+  auto window_content_514 = ShowDiamond();
 
   auto window_114 = ftxui::Window({
       /// 定义两个窗口，并设置其位置、大小和标题
