@@ -1,11 +1,6 @@
 #include "../include/main.h"
 
 int main() {
-  std::string display_name_114;  /// 创建两组字符串变量，分别用于Window114和Window514
-  std::string temp_name_114;
-  std::string display_name_514;
-  std::string temp_name_514;
-
   auto window_content_114 = DndDice();  /// 使用前面定义的函数为两个窗口创建内容
   auto window_content_514 = ShowDiamond();
 
