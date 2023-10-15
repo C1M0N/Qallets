@@ -1,9 +1,7 @@
 #include <ftxui/component/screen_interactive.hpp>
 
-#include "P1_Dice.h"
-#include "P2_SnowDiamond.h"
-
-
+#include "../include/project/P1_Dice.h"
+#include "../include/project/P2_SnowDiamond.h"
 
 int main() {
   std::string display_name_114;  /// 创建两组字符串变量，分别用于Window114和Window514

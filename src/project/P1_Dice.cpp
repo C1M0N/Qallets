@@ -2,7 +2,7 @@
 // Created by Yukio on 13/10/2023.
 //
 
-#include "P1_Dice.h"
+#include "../../include/project/P1_Dice.h"
 
 ftxui::Component DndDice() {  // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字
   class ConsoleToWindow_Dice

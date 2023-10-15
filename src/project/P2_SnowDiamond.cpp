@@ -2,7 +2,7 @@
 // Created by Yukio on 14/10/2023.
 //
 
-#include "P2_SnowDiamond.h"
+#include "../../include/project/P2_SnowDiamond.h"
 
 ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
   class ConsoleToWindow_Diamond
