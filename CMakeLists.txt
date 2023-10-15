@@ -12,7 +12,9 @@ add_executable(Qallets src/main.cpp
         src/tool/ConsoleToWindow.cpp
         include/tool/ConsoleToWindow.h
         src/tool/FtxuiTools.cpp
-        include/tool/FtxuiTools.h)
+        include/tool/FtxuiTools.h
+        src/tool/Math.cpp
+        include/tool/Math.h)
 
 
 

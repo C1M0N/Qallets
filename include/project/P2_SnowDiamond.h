@@ -9,7 +9,7 @@
 #include <string>
 #include <vector>
 
-
+#include "../../include/tool/FtxuiTools.h"
 
 class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
  public:
@@ -27,6 +27,7 @@ class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
 };
 
 ftxui::Component ShowDiamond();
+
 std::string SnowFlake(const std::string& maxLength);
 
 #endif  // QALLETS_P2_SNOWDIAMOND_H

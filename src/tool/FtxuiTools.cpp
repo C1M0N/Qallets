@@ -27,6 +27,4 @@ std::vector<ftxui::Element> LsKu::FTxT::MultiLine(const std::string& originalTex
   }
 
   return ftxui_lines;
-
-
 }

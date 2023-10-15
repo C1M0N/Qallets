@@ -15,5 +15,5 @@ class FTxT {
  public:
   static std::vector<ftxui::Element> MultiLine(const std::string& originalText);
 };
-}
+}  // namespace LsKu
 #endif  // QALLETS_FTXUITOOLS_H

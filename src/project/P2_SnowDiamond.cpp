@@ -3,7 +3,6 @@
 //
 
 #include "../../include/project/P2_SnowDiamond.h"
-#include "../../include/tool/FtxuiTools.h"
 
 
 /// 窗口运行逻辑

@@ -9,6 +9,8 @@
 #include <random>
 #include <string>
 
+#include "../../include/tool/Math.h"
+
 class ConsoleToWindow_DndDice : public ftxui::ComponentBase{
  public:
   ConsoleToWindow_DndDice();
@@ -27,7 +29,6 @@ class ConsoleToWindow_DndDice : public ftxui::ComponentBase{
 ftxui::Component DndDice();
 
 std::string Dice(const std::string& diceCode);
-int RandCIM(int randMin, int randMax);
 
 
 #endif  // QALLETS_P1_DICE_H

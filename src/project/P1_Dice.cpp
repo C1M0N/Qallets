@@ -32,6 +32,7 @@ ftxui::Component DndDice() {  // 创建一个窗口内容的函数，其中包�
   return ftxui::Make<ConsoleToWindow_DndDice>();  // 返回新创建的ConsoleToWindow_Dice组件
 }
 
+/// Dice函数实现
 std::string Dice(const std::string& diceCode) {
   size_t dice_pos;
   int diceAmount;
@@ -45,7 +46,7 @@ std::string Dice(const std::string& diceCode) {
     diceAmount = stoi(diceCode.substr(0, dice_pos));  // 将d前的数赋给骰子数变量
     diceSides = stoi(diceCode.substr(dice_pos + 1));  // 将d后的数赋给骰子面数变量
     for (int i = 0; i < diceAmount; i++) {  /// 用真随机数生成器生成骰子数个[1,骰子面数]随机数后求和
-      int result = RandCIM(1, diceSides);
+      int result = LsKu::Math::Rand(1, diceSides);
       diceResult += result;
     }
     finalResult = "您要的" + std::to_string(diceAmount) + "个" + std::to_string(diceSides) +
@@ -54,11 +55,4 @@ std::string Dice(const std::string& diceCode) {
     finalResult = "ERROR";
   }
   return finalResult;
-}
-
-int RandCIM(int randMin, int randMax) {
-  std::random_device rd;                                   // 用于获得真随机数的种子
-  std::mt19937 gen(rd());                                  // 使用Mersenne Twister伪随机数生成器
-  std::uniform_int_distribution<> dist(randMin, randMax);  // 均匀分布的随机数，范围从randMin到randMax
-  return dist(gen);
 }
