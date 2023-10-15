@@ -10,6 +10,22 @@
 #include <vector>
 
 
+
+class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
+ public:
+  ConsoleToWindow_Diamond();
+
+  ftxui::Element Render() override;
+
+ private:
+  std::string console_Code;
+  std::string inner_Data;
+  std::string hint_Text;
+  ftxui::Component input_Module;
+  ftxui::InputOption EnterEndType;
+
+};
+
 ftxui::Component ShowDiamond();
 std::string SnowFlake(const std::string& maxLength);
 std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText);

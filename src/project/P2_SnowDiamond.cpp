@@ -4,40 +4,28 @@
 
 #include "../../include/project/P2_SnowDiamond.h"
 
-ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
-  class ConsoleToWindow_Diamond
-      : public ftxui::ComponentBase {  // 创建一个自定义的组件ConsoleToWindow_Diamond，继承自ComponentBase。
-   public:
-    ConsoleToWindow_Diamond(){  // 构造函数，初始化内部组件。
+ConsoleToWindow_Diamond::ConsoleToWindow_Diamond() {
+  hint_Text = "Please type an odd number\n";
 
-      hint_Text = "Please type an odd number\n";  // 配置提示文字
-
-      ftxui::InputOption EnterEndType;  // 配置输入选项。
-      EnterEndType.on_enter =
-          [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
-            inner_Data = SnowFlake(console_Code);
-            console_Code.clear();
-            hint_Text.clear();
-          };
-
-      input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
-      Add(input_Module);
-    }
-
-    ftxui::Element Render() override {
-      return ftxui::vbox({ftxui::vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
-                          ftxui::separator(),                                     // 添加分隔线
-                          ftxui::text(hint_Text),     // 在输入组件上显示提示文本
-                          input_Module->Render()}) |  // 渲染输入组件
-             ftxui::border;                           // 添加边框
-    }
-
-   private:  /// 私有变量：用于存储和显示数据
-    std::string inner_Data;
-    std::string console_Code;
-    std::string hint_Text;
-    ftxui::Component input_Module;  // 输入组件
+  EnterEndType.on_enter = [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
+    inner_Data = SnowFlake(console_Code);
+    console_Code.clear();
+    hint_Text.clear();
   };
+
+  input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
+  Add(input_Module);
+}
+
+ftxui::Element ConsoleToWindow_Diamond::Render() {
+  return ftxui::vbox({ftxui::vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
+                      ftxui::separator(),                                     // 添加分隔线
+                      ftxui::text(hint_Text),                                 // 在输入组件上显示提示文本
+                      input_Module->Render()}) |                              // 渲染输入组件
+         ftxui::border;                                                       // 添加边框
+}
+
+ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
   return ftxui::Make<ConsoleToWindow_Diamond>();  // 返回新创建的ConsoleToWindow_Diamond组件
 }
 

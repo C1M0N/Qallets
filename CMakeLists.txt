@@ -8,7 +8,9 @@ add_executable(Qallets src/main.cpp
         include/project/P1_Dice.h
         src/project/P2_SnowDiamond.cpp
         include/project/P2_SnowDiamond.h
-        include/main.h)
+        include/main.h
+        src/tool/ConsoleToWindow.cpp
+        include/tool/ConsoleToWindow.h)
 
 
 
