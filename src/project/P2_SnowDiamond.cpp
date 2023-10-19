@@ -4,8 +4,6 @@
 
 #include "../../include/project/P2_SnowDiamond.h"
 
-bool exit_requested = false;
-
 /// 窗口运行逻辑
 ConsoleToWindow_Diamond::ConsoleToWindow_Diamond() {
   hint_Text = "请输入一个奇数\n";
@@ -37,7 +35,7 @@ void ConsoleToWindow_Diamond::ConsoleProcessing() {
         output_Data.push_back(ftxui::text("本程序是一个根据用户输入半径，来进行雪花菱生成的应用"));
         break;
       case EXIT:
-        exit_requested = true;
+
         break;
       case UNDEFINED:
         output_Data.push_back(ftxui::text("错误：未知代码->" + command_String));
@@ -51,15 +49,14 @@ void ConsoleToWindow_Diamond::ConsoleProcessing() {
 
 /// 窗口渲染
 ftxui::Element ConsoleToWindow_Diamond::Render() {
-  while (!exit_requested) {
-    return ftxui::vbox({ftxui::vbox(output_Data) | ftxui::flex,  // 显示菱形
-                        ftxui::separator(),                      // 添加分隔线
-                        ftxui::text(hint_Text),                  // 在输入组件上显示提示文本
-                        input_Module->Render()}) |               // 渲染输入组件
-           ftxui::border | ftxui::flex;  ;                                        // 添加边框
+  return ftxui::vbox({
+               ftxui::vbox(output_Data) | ftxui::flex,  // 显示菱形
+               ftxui::separator(),                      // 添加分隔线
+               ftxui::text(hint_Text),                  // 在输入组件上显示提示文本
+               input_Module->Render()                   // 渲染输入组件
+           }) |
+           ftxui::border | ftxui::flex;  // 添加边框
   }
-  return ftxui::text("");
-}
 
 /// 提交组件
 ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。

@@ -8,12 +8,16 @@
 #include <ftxui/component/component.hpp>
 #include <random>
 #include <string>
+#include <map>
 
+#include "../../include/tool/FtxuiTools.h"
 #include "../../include/tool/Math.h"
 
 class ConsoleToWindow_DndDice : public ftxui::ComponentBase{
  public:
   ConsoleToWindow_DndDice();
+
+  void ConsoleProcessing();
 
   ftxui::Element Render() override;
 
@@ -21,8 +25,20 @@ class ConsoleToWindow_DndDice : public ftxui::ComponentBase{
   std::string console_Code;
   std::string inner_Data;
   std::string hint_Text;
+  std::vector<ftxui::Element> output_Data;
   ftxui::Component input_Module;
   ftxui::InputOption EnterEndType;
+
+  enum Command{
+    UNDEFINED,
+    HELP,
+    EXIT
+  };
+
+  std::map<std::string,Command> command_Map ={
+      {"help", HELP},
+      {"exit", EXIT}
+  };
 
 };
 
