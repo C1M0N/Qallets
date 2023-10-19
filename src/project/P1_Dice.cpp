@@ -24,7 +24,7 @@ ftxui::Element ConsoleToWindow_DndDice::Render() {
                       ftxui::separator(),                                     // 添加分隔线
                       ftxui::text(hint_Text),                                 // 在输入组件上显示提示文本
                       input_Module->Render()}) |                              // 渲染输入组件
-         ftxui::border;                                                       // 添加边框
+         ftxui::border | ftxui::flex;                                                       // 添加边框
 }
 
 /// 提交组件
