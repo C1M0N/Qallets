@@ -7,7 +7,15 @@ add_executable(Qallets src/main.cpp
         src/project/P1_Dice.cpp
         include/project/P1_Dice.h
         src/project/P2_SnowDiamond.cpp
-        include/project/P2_SnowDiamond.h)
+        include/project/P2_SnowDiamond.h
+        include/main.h
+        src/tool/ConsoleToWindow.cpp
+        include/tool/ConsoleToWindow.h
+        src/tool/FtxuiTools.cpp
+        include/tool/FtxuiTools.h
+        src/tool/Math.cpp
+        include/tool/Math.h
+)
 
 
 

@@ -8,10 +8,40 @@
 #include <ftxui/component/component.hpp>
 #include <string>
 #include <vector>
+#include <map>
 
+#include "../../include/tool/FtxuiTools.h"
+
+class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
+ public:
+  ConsoleToWindow_Diamond();
+
+  void ConsoleProcessing();
+
+  ftxui::Element Render() override;
+
+ private:
+  std::string console_Code;
+  std::string inner_Data;
+  std::string hint_Text;
+  std::vector<ftxui::Element> output_Data;
+  ftxui::Component input_Module;
+  ftxui::InputOption EnterEndType;
+
+  enum Command{
+    UNDEFINED,
+    HELP,
+    EXIT
+  };
+
+  std::map<std::string,Command> command_Map ={
+      {"help", HELP},
+      {"exit", EXIT}
+  };
+};
 
 ftxui::Component ShowDiamond();
+
 std::string SnowFlake(const std::string& maxLength);
-std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText);
 
 #endif  // QALLETS_P2_SNOWDIAMOND_H

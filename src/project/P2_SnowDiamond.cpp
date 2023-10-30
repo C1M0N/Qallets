@@ -4,43 +4,66 @@
 
 #include "../../include/project/P2_SnowDiamond.h"
 
-ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
-  class ConsoleToWindow_Diamond
-      : public ftxui::ComponentBase {  // 创建一个自定义的组件ConsoleToWindow_Diamond，继承自ComponentBase。
-   public:
-    ConsoleToWindow_Diamond(){  // 构造函数，初始化内部组件。
+/// 窗口运行逻辑
+ConsoleToWindow_Diamond::ConsoleToWindow_Diamond() {
+  hint_Text = "请输入一个奇数\n";
 
-      hint_Text = "Please type an odd number\n";  // 配置提示文字
-
-      ftxui::InputOption EnterEndType;  // 配置输入选项。
-      EnterEndType.on_enter =
-          [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
-            inner_Data = SnowFlake(console_Code);
-            console_Code.clear();
-            hint_Text.clear();
-          };
-
-      input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
-      Add(input_Module);
-    }
-
-    ftxui::Element Render() override {
-      return ftxui::vbox({ftxui::vbox(FtxuiMultiline(inner_Data)) | ftxui::flex,  // 显示菱形
-                          ftxui::separator(),                                     // 添加分隔线
-                          ftxui::text(hint_Text),     // 在输入组件上显示提示文本
-                          input_Module->Render()}) |  // 渲染输入组件
-             ftxui::border;                           // 添加边框
-    }
-
-   private:  /// 私有变量：用于存储和显示数据
-    std::string inner_Data;
-    std::string console_Code;
-    std::string hint_Text;
-    ftxui::Component input_Module;  // 输入组件
+  EnterEndType.on_enter = [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
+    inner_Data = console_Code;
+    inner_Data.pop_back();
+    console_Code.clear();
+    hint_Text.clear();
+    ConsoleProcessing();
   };
+
+  input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
+  Add(input_Module);
+}
+
+/// 内部处理逻辑
+void ConsoleToWindow_Diamond::ConsoleProcessing() {
+  if (inner_Data.substr(0, 1) == "/") {
+    std::string command_String = inner_Data.substr(1);
+    Command console_Command = UNDEFINED;
+    output_Data.clear();
+
+    if (command_Map.find(command_String) != command_Map.end()) {
+      console_Command = command_Map[command_String];
+    }
+    switch (console_Command) {
+      case HELP:
+        output_Data.push_back(ftxui::text("本程序是一个根据用户输入半径，来进行雪花菱生成的应用"));
+        break;
+      case EXIT:
+
+        break;
+      case UNDEFINED:
+        output_Data.push_back(ftxui::text("错误：未知代码->" + command_String));
+        break;
+    }
+  } else {
+    output_Data = LsKu::FTxT::MultiLine(SnowFlake(inner_Data));
+  }
+  hint_Text = "again?";
+}
+
+/// 窗口渲染
+ftxui::Element ConsoleToWindow_Diamond::Render() {
+  return ftxui::vbox({
+               ftxui::vbox(output_Data) | ftxui::flex,  // 显示菱形
+               ftxui::separator(),                      // 添加分隔线
+               ftxui::text(hint_Text),                  // 在输入组件上显示提示文本
+               input_Module->Render()                   // 渲染输入组件
+           }) |
+           ftxui::border | ftxui::flex;  // 添加边框
+  }
+
+/// 提交组件
+ftxui::Component ShowDiamond() {  // 创建一个显示菱形的函数，其中包含一个输入组件，用于让用户输入菱形的半径。
   return ftxui::Make<ConsoleToWindow_Diamond>();  // 返回新创建的ConsoleToWindow_Diamond组件
 }
 
+/// SnowDiamond函数实现
 std::string SnowFlake(const std::string& maxLength) {
   std::string spaceString;
   std::string snowflakeString = "*";
@@ -68,29 +91,4 @@ std::string SnowFlake(const std::string& maxLength) {
   }
 
   return output;
-}
-
-std::vector<ftxui::Element> FtxuiMultiline(const std::string& originalText) {
-  std::string process_data = originalText;  // 拷贝待处理字符串
-
-  size_t line_breaker_pos;
-  std::string line_breaker = "\n";
-  std::vector<std::string> vectorize_lines;
-
-  std::vector<ftxui::Element> ftxui_lines;  // 符合FTXUI规范的"多行文本"元素
-
-  /// 将单个长多行字符串转化为向量字符串
-  while ((line_breaker_pos = process_data.find(line_breaker)) != std::string::npos) {  // 寻找法定换行符
-    vectorize_lines.push_back(process_data.substr(0, line_breaker_pos));  // 换行符前赋给向量字符串
-    process_data.erase(0, line_breaker_pos + line_breaker.length());      // 删去处理完的字符串
-  }
-  vectorize_lines.push_back(process_data);  // 向向量字符串加入最后一个换行符后的文本
-
-  /// 将向量字符串转化为"多行文本"元素
-  ftxui_lines.reserve(vectorize_lines.size());  // 预先留出向量字符串数量的内存空间
-  for (const auto& iterated_line : vectorize_lines) {
-    ftxui_lines.push_back(ftxui::text(iterated_line));  // 向向量型元素内注入每个单行FTXUI文本
-  }
-
-  return ftxui_lines;
 }
