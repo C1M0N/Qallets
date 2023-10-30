@@ -14,7 +14,8 @@ add_executable(Qallets src/main.cpp
         src/tool/FtxuiTools.cpp
         include/tool/FtxuiTools.h
         src/tool/Math.cpp
-        include/tool/Math.h)
+        include/tool/Math.h
+)
 
 
 

@@ -17,9 +17,9 @@ int main() {
                                          }, &inner_selected_tab);
 
   auto inner_tab2 = ftxui::Container::Tab({
-                                             window_content_233,
-                                             window_content_666
-                                         }, &inner_selected_tab2);
+                                              window_content_233,
+                                              window_content_666
+                                          }, &inner_selected_tab2);
 
   std::vector<std::string> inner_tab_titles = {
       "114",
@@ -32,24 +32,19 @@ int main() {
   };
 
   auto inner_tab_toggle = ftxui::Menu(&inner_tab_titles, &inner_selected_tab);
-
   auto inner_tab_toggle2 = ftxui::Menu(&inner_tab_titles2, &inner_selected_tab2);
-
-  auto big_content = ftxui::Container::Vertical({
-      inner_tab_toggle,
-      inner_tab,
-  });
 
   int selected_tab = 0;
 
   auto tab = ftxui::Container::Tab({
-                                       inner_tab_toggle,  // test1的内容
-                                       inner_tab_toggle2      // test2目前为空
+                                       inner_tab_toggle,
+                                       inner_tab_toggle2
                                    }, &selected_tab);
 
   std::vector<std::string> tab_horizontal = {
       "test1", "test2"
   };
+
   auto tab_selection = Menu(&tab_horizontal, &selected_tab, ftxui::MenuOption::HorizontalAnimated());
 
   auto component2 = ftxui::Container::Vertical({
@@ -57,21 +52,32 @@ int main() {
       tab,
   });
 
+  component2->Add(inner_tab);
+  component2->Add(inner_tab2);
+
   auto tab_with_mouse = CatchEvent(component2, [&](ftxui::Event e) {
     if (e.is_mouse()) {
       mouse_x = (e.mouse().x - 1) * 2;
       mouse_y = (e.mouse().y - 1) * 4;
     }
+
+    if (selected_tab == 0) {
+      component2->SetActiveChild(inner_tab);
+    } else {
+      component2->SetActiveChild(inner_tab2);
+    }
+
     return false;
   });
 
   auto component_renderer = ftxui::Renderer(tab_with_mouse, [&] {
-    return ftxui::hbox({ftxui::vbox({
-                            tab_selection->Render(),
-                            tab->Render()
-                        }),
+    return ftxui::hbox({
+               ftxui::vbox({
+                   tab_selection->Render(),
+                   tab->Render()
+               }),
                ftxui::separator(),
-                        selected_tab == 0 ? inner_tab->Render() : inner_tab2->Render()
+               selected_tab == 0 ? inner_tab->Render() : inner_tab2->Render()
            }) |
            ftxui::border;
   });
