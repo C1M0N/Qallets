@@ -3,87 +3,91 @@
 int main() {
   int mouse_x = 0;
   int mouse_y = 0;
+  int question_tab_index = 0;
+  int idea_tab_index = 0;
+  int main_tab_index = 0;
 
-  auto window_content_114 = DndDice();
-  auto window_content_514 = ShowDiamond();
-  auto window_content_666 = DndDice();
-  auto window_content_233 = ShowDiamond();
+  auto Q1_lc1_test1 = DndDice();
+  auto Q2_lc2_test2 = ShowDiamond();
+  auto I1_dnddice = DndDice();
+  auto I2_diamond = ShowDiamond();
 
-  int inner_selected_tab = 0;
-  int inner_selected_tab2 = 0;
-  auto inner_tab = ftxui::Container::Tab({
-                                             window_content_114,
-                                             window_content_514,
-                                         }, &inner_selected_tab);
+  auto question_tab = ftxui::Container::Tab({
+                                             Q1_lc1_test1,
+                                             Q2_lc2_test2
+                                         }, &question_tab_index);
 
-  auto inner_tab2 = ftxui::Container::Tab({
-                                              window_content_233,
-                                              window_content_666
-                                          }, &inner_selected_tab2);
+  auto idea_tab = ftxui::Container::Tab({
+                                              I1_dnddice,
+                                              I2_diamond
+                                          }, &idea_tab_index);
 
-  std::vector<std::string> inner_tab_titles = {
-      "114",
-      "514"
+  std::vector<std::string> question_tab_display = {
+      "测试1",
+      "测试2"
   };
 
-  std::vector<std::string> inner_tab_titles2 = {
-      "233",
-      "666"
+  std::vector<std::string> idea_tab_display = {
+      "Dnd骰子",
+      "字符菱形生成器"
   };
 
-  auto inner_tab_toggle = ftxui::Menu(&inner_tab_titles, &inner_selected_tab);
-  auto inner_tab_toggle2 = ftxui::Menu(&inner_tab_titles2, &inner_selected_tab2);
+  auto question_tab_menu = ftxui::Menu(&question_tab_display, &question_tab_index);
+  auto idea_tab_menu = ftxui::Menu(&idea_tab_display, &idea_tab_index);
 
-  int selected_tab = 0;
 
-  auto tab = ftxui::Container::Tab({
-                                       inner_tab_toggle,
-                                       inner_tab_toggle2
-                                   }, &selected_tab);
 
-  std::vector<std::string> tab_horizontal = {
-      "test1", "test2"
+  auto main_tab = ftxui::Container::Tab({
+                                            question_tab_menu,
+                                            idea_tab_menu
+                                   }, &main_tab_index);
+
+  std::vector<std::string> main_tab_display = {
+      "算法题", "自由实践"
   };
 
-  auto tab_selection = Menu(&tab_horizontal, &selected_tab, ftxui::MenuOption::HorizontalAnimated());
+  auto main_tab_menu = Menu(&main_tab_display, &main_tab_index, ftxui::MenuOption::HorizontalAnimated());
 
-  auto component2 = ftxui::Container::Vertical({
-      tab_selection,
-      tab,
+
+
+  auto menu_structure = ftxui::Container::Vertical({
+      main_tab_menu,
+      main_tab,
+      question_tab,
+      idea_tab
   });
 
-  component2->Add(inner_tab);
-  component2->Add(inner_tab2);
-
-  auto tab_with_mouse = CatchEvent(component2, [&](ftxui::Event e) {
+  auto mouse_focus = CatchEvent(menu_structure, [&](ftxui::Event e) {
     if (e.is_mouse()) {
       mouse_x = (e.mouse().x - 1) * 2;
       mouse_y = (e.mouse().y - 1) * 4;
     }
 
-    if (selected_tab == 0) {
-      component2->SetActiveChild(inner_tab);
+    if (main_tab_index == 0) {
+      menu_structure->SetActiveChild(question_tab);
     } else {
-      component2->SetActiveChild(inner_tab2);
+      menu_structure->SetActiveChild(idea_tab);
     }
 
     return false;
   });
 
-  auto component_renderer = ftxui::Renderer(tab_with_mouse, [&] {
+
+
+  auto user_interface = ftxui::Renderer(mouse_focus, [&] {
     return ftxui::hbox({
                ftxui::vbox({
-                   tab_selection->Render(),
-                   tab->Render()
+                   main_tab_menu->Render(),
+                   main_tab->Render()
                }),
                ftxui::separator(),
-               selected_tab == 0 ? inner_tab->Render() : inner_tab2->Render()
+               main_tab_index == 0 ? question_tab->Render() : idea_tab->Render()
            }) |
            ftxui::border;
   });
 
   auto screen = ftxui::ScreenInteractive::Fullscreen();
-  screen.Loop(component_renderer);
+  screen.Loop(user_interface);
 
   return EXIT_SUCCESS;
 }
