@@ -8,7 +8,8 @@
 ConsoleToWindow_DndDice::ConsoleToWindow_DndDice() {
   hint_Text = "请输入骰子代码\n";
 
-  EnterEndType.on_enter = [&] {  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
+  /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
+  EnterEndType.on_enter = [&] {
     inner_Data = console_Code;
     inner_Data.pop_back();
     console_Code.clear();
@@ -49,10 +50,11 @@ void ConsoleToWindow_DndDice::ConsoleProcessing() {
 /// 窗口渲染
 ftxui::Element ConsoleToWindow_DndDice::Render() {
   return ftxui::vbox({ftxui::vbox(output_Data) | ftxui::flex,  // 显示菱形
-                      ftxui::separator(),                                     // 添加分隔线
-                      ftxui::text(hint_Text),                                 // 在输入组件上显示提示文本
-                      input_Module->Render()}) |                              // 渲染输入组件
-         ftxui::border | ftxui::flex;                                                       // 添加边框
+                      ftxui::separator(),                      // 添加分隔线
+                      ftxui::text(hint_Text),                  // 在输入组件上显示提示文本
+                      input_Module->Render()}) |               // 渲染输入组件
+         ftxui::border |
+         ftxui::flex;  // 添加边框
 }
 
 /// 提交组件
@@ -73,7 +75,7 @@ std::string Dice(const std::string& diceCode) {
   if (dice_pos > 0) {                                 // 检测d是否存在并且是否位置合理
     diceAmount = stoi(diceCode.substr(0, dice_pos));  // 将d前的数赋给骰子数变量
     diceSides = stoi(diceCode.substr(dice_pos + 1));  // 将d后的数赋给骰子面数变量
-    for (int i = 0; i < diceAmount; i++) {  /// 用真随机数生成器生成骰子数个[1,骰子面数]随机数后求和
+    for (int i = 0; i < diceAmount; i++) {  // 用真随机数生成器生成骰子数个[1,骰子面数]随机数后求和
       int result = LsKu::Math::Rand(1, diceSides);
       diceResult += result;
     }
