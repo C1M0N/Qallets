@@ -2,8 +2,8 @@
 // Created by Yukio on 13/10/2023.
 //
 
-#ifndef QALLETS_P1_DICE_H
-#define QALLETS_P1_DICE_H
+#ifndef QALLETS_I1_DNDDICE_H
+#define QALLETS_I1_DNDDICE_H
 
 #include <ftxui/component/component.hpp>
 #include <random>
@@ -47,4 +47,4 @@ ftxui::Component DndDice();
 std::string Dice(const std::string& diceCode);
 
 
-#endif  // QALLETS_P1_DICE_H
+#endif  // QALLETS_I1_DNDDICE_H

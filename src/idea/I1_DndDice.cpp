@@ -2,7 +2,7 @@
 // Created by Yukio on 13/10/2023.
 //
 
-#include "../../include/project/P1_Dice.h"
+#include "../../include/idea/I1_DndDice.h"
 
 /// 窗口运行逻辑
 ConsoleToWindow_DndDice::ConsoleToWindow_DndDice() {
@@ -17,7 +17,7 @@ ConsoleToWindow_DndDice::ConsoleToWindow_DndDice() {
     ConsoleProcessing();
   };
 
-  input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件。
+  input_Module = Input(&console_Code, "Console", EnterEndType);  // 配置输入组件并添加到当前组件
   Add(input_Module);
 }
 

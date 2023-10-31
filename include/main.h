@@ -7,7 +7,7 @@
 
 #include <ftxui/component/screen_interactive.hpp>
 
-#include "../include/project/P1_Dice.h"
-#include "../include/project/P2_SnowDiamond.h"
+#include "../include/idea/I1_DndDice.h"
+#include "../include/idea/I2_Diamond.h"
 
 #endif  // QALLETS_MAIN_H
