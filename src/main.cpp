@@ -8,14 +8,14 @@ int main() {
   int main_tab_index = 0;
 
   /// 组件转化为模块并命名
-  auto Q1_lc1_test1 = DndDice();
+  auto Q1_lc1_twosum = TwoSum();
   auto Q2_lc2_test2 = ShowDiamond();
   auto I1_dnddice = DndDice();
   auto I2_diamond = ShowDiamond();
 
   /// 模块分类至不同的tab内
   auto question_tab = ftxui::Container::Tab({
-                                             Q1_lc1_test1,
+                                             Q1_lc1_twosum,
                                              Q2_lc2_test2
                                          }, &question_tab_index);
 
@@ -26,7 +26,7 @@ int main() {
 
   /// 编辑程序显示名称
   std::vector<std::string> question_tab_display = {
-      "测试1",
+      "两数之和",
       "测试2"
   };
 

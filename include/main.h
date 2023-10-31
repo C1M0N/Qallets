@@ -9,5 +9,6 @@
 
 #include "../include/idea/I1_DndDice.h"
 #include "../include/idea/I2_Diamond.h"
+#include "../include/question/Q1_LC1_TwoSum.h"
 
 #endif  // QALLETS_MAIN_H

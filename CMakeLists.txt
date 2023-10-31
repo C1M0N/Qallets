@@ -15,6 +15,10 @@ add_executable(Qallets src/main.cpp
         include/tool/FtxuiTools.h
         src/tool/Math.cpp
         include/tool/Math.h
+        src/tool/Template.cpp
+        include/tool/Template.h
+        src/question/Q1_LC1_TwoSum.cpp
+        include/question/Q1_LC1_TwoSum.h
 )
 
 
