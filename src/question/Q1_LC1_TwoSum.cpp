@@ -7,7 +7,7 @@
 /// 窗口运行逻辑
 ctw_twosum::ctw_twosum() {
   hint_Text = "请输入数字，中间用空格隔开\n";
-
+  process_index = 0;
   /// 当用户按下Enter键时，将console_Code的值赋给inner_Data并清除console_Code和提示文字
   EnterEndType.on_enter = [&] {
     inner_Data = console_Code;
@@ -35,6 +35,10 @@ void ctw_twosum::ConsoleProcessing() {
       case HELP:
         output_Data.push_back(ftxui::text("_帮助文字_"));
         break;
+      case RESET:
+        process_index = 0;
+        hint_Text = "请输入数字，中间用空格隔开\n";
+        break;
       case EXIT:
 
         break;
@@ -45,42 +49,82 @@ void ctw_twosum::ConsoleProcessing() {
   }
   else {
     std::stringstream lineToInput(inner_Data);
-    while(lineToInput >> to_Vector){
-      number_Input.push_back(to_Vector);
+    switch(process_index){
+      case 0:
+        raw_Output_Data = "";
+        to_Vector = 0;
+        number_Input.clear();
+        sum_Two.clear();
+        uniqueAdder.clear();
+        uniqueSumTwo.clear();
+
+        while(lineToInput >> to_Vector){
+          number_Input.push_back(to_Vector);
+        }
+
+        for(int i = 0;i < number_Input.size();i++){
+          for(int j = i + 1;j < number_Input.size();j++){
+            sum_Two.push_back(number_Input[i] + number_Input[j]);
+          }
+        }
+
+        raw_Output_Data += "你一开始输入的值为：\n";
+        for(const int& n : number_Input){
+          raw_Output_Data += std::to_string(n);
+          raw_Output_Data += ", ";
+        }
+
+        raw_Output_Data += "\n你所输入的数字两两相加共有";
+        raw_Output_Data += std::to_string(LsKu::Math::Comb(int(number_Input.size()),2));
+        raw_Output_Data += "种和。\n";
+
+        for (int i : sum_Two){
+          if (uniqueAdder.find(i) == uniqueAdder.end()){
+            uniqueSumTwo.push_back(i);
+            uniqueAdder.insert(i);
+          }
+        }
+
+        raw_Output_Data += "分别为";
+        for(const int& n : uniqueSumTwo){
+          raw_Output_Data += std::to_string(n);
+          raw_Output_Data += ", ";
+        }
+        raw_Output_Data += "\n\n";
+
+        output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data)); // 输出部分
+        hint_Text = "请从上述可能和中选择你想知道两数之和索引的和";
+        process_index = 10;
+        break;
+      case 10:
+        int sum_aim = std::stoi(inner_Data);
+        if (uniqueAdder.find(sum_aim) == uniqueAdder.end()){
+          raw_Output_Data += "没找到，请重新输入\n";
+          output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data));
+
+        }
+        else{
+          for(int i = 0; i < number_Input.size(); i++){
+            for(int j = i + 1; j < number_Input.size(); j++){
+              if(number_Input[j] == (sum_aim - number_Input[i])){
+                answer1 = i;
+                answer2 = j;
+
+              }
+            }
+          }
+          raw_Output_Data += "找到，序号为：";
+          raw_Output_Data += std::to_string(answer1);
+          raw_Output_Data += std::to_string(answer2);
+          output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data));
+        }
+
+
+        break;
+
     }
-
-    for(int i = 0;i < number_Input.size();i++){
-      for(int j = i + 1;j < number_Input.size();j++){
-        sum_Two.push_back(number_Input[i] + number_Input[j]);
-      }
-    }
-
-    raw_Output_Data += "你一开始输入的值为：\n";
-    for(const int& n : number_Input){
-      raw_Output_Data += std::to_string(n);
-      raw_Output_Data += ", ";
-    }
-
-    raw_Output_Data += "\n你所输入的数字两两相加共有";
-    raw_Output_Data += std::to_string(LsKu::Math::Comb(int(number_Input.size()),2));
-    raw_Output_Data += "种和。\n";
-
-    for (int i : sum_Two){
-      if (uniqueAdder.find(i) == uniqueAdder.end()){
-        uniqueSumTwo.push_back(i);
-        uniqueAdder.insert(i);
-      }
-    }
-
-    raw_Output_Data += "分别为";
-    for(const int& n : uniqueSumTwo){
-      raw_Output_Data += std::to_string(n);
-      raw_Output_Data += ", ";
-    }
-
-    output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data)); // 输出部分
   }
-  hint_Text = "again?";
+
 }
 
 /// 窗口渲染
@@ -97,3 +141,4 @@ ftxui::Element ctw_twosum::Render() {
 ftxui::Component TwoSum() {  // 创建一个窗口内容的函数，其中包含一个输入组件，用于让用户输入其名字
   return ftxui::Make<ctw_twosum>();  // 返回新创建的ConsoleToWindow_Dice组件
 }
+
