@@ -73,6 +73,7 @@ void ctw_twosum::ConsoleProcessing() {
           raw_Output_Data += std::to_string(n);
           raw_Output_Data += ", ";
         }
+        raw_Output_Data.erase(raw_Output_Data.size() - 2);
 
         raw_Output_Data += "\n你所输入的数字两两相加共有";
         raw_Output_Data += std::to_string(LsKu::Math::Comb(int(number_Input.size()),2));
@@ -90,6 +91,7 @@ void ctw_twosum::ConsoleProcessing() {
           raw_Output_Data += std::to_string(n);
           raw_Output_Data += ", ";
         }
+        raw_Output_Data.erase(raw_Output_Data.size() - 2);
         raw_Output_Data += "\n\n";
 
         output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data)); // 输出部分
@@ -98,6 +100,7 @@ void ctw_twosum::ConsoleProcessing() {
         break;
       case 10:
         int sum_aim = std::stoi(inner_Data);
+        std::unordered_map<int,int> sum_map;
         if (uniqueAdder.find(sum_aim) == uniqueAdder.end()){
           raw_Output_Data += "没找到，请重新输入\n";
           output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data));
@@ -105,17 +108,15 @@ void ctw_twosum::ConsoleProcessing() {
         }
         else{
           for(int i = 0; i < number_Input.size(); i++){
-            for(int j = i + 1; j < number_Input.size(); j++){
-              if(number_Input[j] == (sum_aim - number_Input[i])){
-                answer1 = i;
-                answer2 = j;
-
-              }
+            if(sum_map.find((sum_aim - number_Input[i])) != sum_map.end()){
+              answer1 = sum_map[sum_aim - number_Input[i]];
+              answer2 = i;
             }
+            sum_map[number_Input[i]] = i;
           }
-          raw_Output_Data += "找到，序号为：";
-          raw_Output_Data += std::to_string(answer1);
-          raw_Output_Data += std::to_string(answer2);
+          raw_Output_Data += "第" + std::to_string(answer1 + 1) + "个数\"" + std::to_string(number_Input[answer1]) + "\"与";
+          raw_Output_Data += "第" + std::to_string(answer2 + 1) + "个数\"" + std::to_string(number_Input[answer2]) + "\"的和为";
+          raw_Output_Data += std::to_string(sum_aim) + "\n";
           output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data));
         }
 

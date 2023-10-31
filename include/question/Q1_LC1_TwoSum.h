@@ -26,8 +26,8 @@ class ctw_twosum : public ftxui::ComponentBase{
  private:
   int to_Vector{};
   int process_index;
-  int answer1;
-  int answer2;
+  int answer1{};
+  int answer2{};
   std::string console_Code;
   std::string inner_Data;
   std::string hint_Text;
