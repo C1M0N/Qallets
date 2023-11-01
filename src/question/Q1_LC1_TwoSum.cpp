@@ -22,6 +22,10 @@ ctw_twosum::ctw_twosum() {
 }
 
 void ctw_twosum::ConsoleProcessing() {
+  int to_Vector;
+  int answer1;
+  int answer2;
+
   if (inner_Data.substr(0, 1) == "/") {
     std::string command_String = inner_Data.substr(1);  // 删去末尾的空字符
     Command console_Command = UNDEFINED;
@@ -52,11 +56,10 @@ void ctw_twosum::ConsoleProcessing() {
     switch(process_index){
       case 0:
         raw_Output_Data = "";
-        to_Vector = 0;
-        number_Input.clear();
-        sum_Two.clear();
         uniqueAdder.clear();
         uniqueSumTwo.clear();
+        number_Input.clear();
+        sum_Two.clear();
 
         while(lineToInput >> to_Vector){
           number_Input.push_back(to_Vector);
@@ -119,10 +122,7 @@ void ctw_twosum::ConsoleProcessing() {
           raw_Output_Data += std::to_string(sum_aim) + "\n";
           output_Data = (LsKu::FTxT::MultiLine(raw_Output_Data));
         }
-
-
         break;
-
     }
   }
 

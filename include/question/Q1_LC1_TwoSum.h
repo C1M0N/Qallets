@@ -24,21 +24,19 @@ class ctw_twosum : public ftxui::ComponentBase{
   ftxui::Element Render() override;
 
  private:
-  int to_Vector{};
   int process_index;
-  int answer1{};
-  int answer2{};
   std::string console_Code;
   std::string inner_Data;
   std::string hint_Text;
   std::string raw_Output_Data;
+  std::vector<ftxui::Element> output_Data;
+  ftxui::Component input_Module;
+  ftxui::InputOption EnterEndType;
+
   std::vector<int> uniqueSumTwo;
   std::unordered_set<int> uniqueAdder;
   std::vector<int> number_Input;
   std::vector<int> sum_Two;
-  std::vector<ftxui::Element> output_Data;
-  ftxui::Component input_Module;
-  ftxui::InputOption EnterEndType;
 
   enum Command{
     UNDEFINED,
