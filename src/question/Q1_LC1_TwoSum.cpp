@@ -28,7 +28,7 @@ void ctw_twosum::ConsoleProcessing() {
   int to_Vector;
   int answer1;
   int answer2;
-  int sum_aim = std::stoi(inner_Data);
+  int sum_aim;
   std::unordered_map<int,int> sum_map;
 
   /// 底层指令判断
@@ -126,6 +126,8 @@ void ctw_twosum::ConsoleProcessing() {
 
       /// 10-「找和」分支
       case 10:
+        sum_aim = std::stoi(inner_Data);
+
         if (uniqueAdder.find(sum_aim) == uniqueAdder.end()){
           output_Data.push_back(ftxui::text("此数非可能和,请重新输入") | ftxui::color(ccol_Red));
         }
