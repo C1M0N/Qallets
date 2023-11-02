@@ -11,6 +11,7 @@
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+#include <cstdlib>
 
 #include "../../include/tool/FtxuiTools.h"
 #include "../../include/tool/Math.h"
@@ -37,6 +38,9 @@ class ctw_twosum : public ftxui::ComponentBase{
   std::unordered_set<int> uniqueAdder;
   std::vector<int> number_Input;
   std::vector<int> sum_Two;
+  ftxui::Element temp_Text;
+  ftxui::Color ccol_Orange = ftxui::Color(233,138,21);
+  ftxui::Color ccol_Red = ftxui::Color(233,32,21);
 
   enum Command{
     UNDEFINED,
