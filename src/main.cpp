@@ -80,15 +80,21 @@ int main() {
 
   /// UI渲染架构
   auto user_interface = ftxui::Renderer(mouse_focus, [&] {
-    return ftxui::hbox({
-               ftxui::vbox({
-                   main_tab_menu->Render(),
-                   main_tab->Render()
-               }),
-               ftxui::separator(),
-               main_tab_index == 0 ? question_tab->Render() : idea_tab->Render()
-           }) |
-           ftxui::border;
+    return
+        ftxui::vbox({
+            ftxui::hbox({
+                ftxui::text("Qallets") | ftxui::bold | ftxui::color(ftxui::Color(58,143,183)),
+                ftxui::filler(),
+                ftxui::text(version) | ftxui::color(ftxui::Color(90,90,90)),
+            }),
+            ftxui::hbox({
+                         ftxui::vbox({
+                             main_tab_menu->Render(),
+                             main_tab->Render()
+                         }),
+                         ftxui::separator(),
+                         main_tab_index == 0 ? question_tab->Render() : idea_tab->Render()
+                     }) | ftxui::border | ftxui::flex});
   });
 
   auto screen = ftxui::ScreenInteractive::Fullscreen();

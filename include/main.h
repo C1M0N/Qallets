@@ -11,4 +11,6 @@
 #include "../include/idea/I2_Diamond.h"
 #include "../include/question/Q1_LC1_TwoSum.h"
 
+std::string version = "a.0.3-p7b16";
+
 #endif  // QALLETS_MAIN_H
