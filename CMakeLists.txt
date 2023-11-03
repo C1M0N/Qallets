@@ -4,10 +4,10 @@ project(Qallets)
 set(CMAKE_CXX_STANDARD 23)
 
 add_executable(Qallets src/main.cpp
-        src/project/P1_Dice.cpp
-        include/project/P1_Dice.h
-        src/project/P2_SnowDiamond.cpp
-        include/project/P2_SnowDiamond.h
+        src/idea/I1_DndDice.cpp
+        include/idea/I1_DndDice.h
+        src/idea/I2_Diamond.cpp
+        include/idea/I2_Diamond.h
         include/main.h
         src/tool/ConsoleToWindow.cpp
         include/tool/ConsoleToWindow.h
@@ -15,6 +15,10 @@ add_executable(Qallets src/main.cpp
         include/tool/FtxuiTools.h
         src/tool/Math.cpp
         include/tool/Math.h
+        src/tool/Template.cpp
+        include/tool/Template.h
+        src/question/Q1_LC1_TwoSum.cpp
+        include/question/Q1_LC1_TwoSum.h
 )
 
 

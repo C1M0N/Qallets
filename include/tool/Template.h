@@ -1,20 +1,16 @@
-//
-// Created by Yukio on 14/10/2023.
-//
-
-#ifndef QALLETS_P2_SNOWDIAMOND_H
-#define QALLETS_P2_SNOWDIAMOND_H
-
+#ifndef QALLETS_TEMPLATE_H
+#define QALLETS_TEMPLATE_H
+/*
 #include <ftxui/component/component.hpp>
 #include <string>
-#include <vector>
 #include <map>
 
 #include "../../include/tool/FtxuiTools.h"
+#include "../../include/tool/Math.h"
 
-class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
+class ctw_twosum : public ftxui::ComponentBase{
  public:
-  ConsoleToWindow_Diamond();
+  ctw_twosum();
 
   void ConsoleProcessing();
 
@@ -38,10 +34,9 @@ class ConsoleToWindow_Diamond : public ftxui::ComponentBase{
       {"help", HELP},
       {"exit", EXIT}
   };
+
 };
 
-ftxui::Component ShowDiamond();
-
-std::string SnowFlake(const std::string& maxLength);
-
-#endif  // QALLETS_P2_SNOWDIAMOND_H
+ftxui::Component TwoSum();
+*/
+#endif  // QALLETS_TEMPLATE_H

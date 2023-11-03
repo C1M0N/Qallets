@@ -2,7 +2,7 @@
 // Created by Yukio on 14/10/2023.
 //
 
-#include "../../include/project/P2_SnowDiamond.h"
+#include "../../include/idea/I2_Diamond.h"
 
 /// 窗口运行逻辑
 ConsoleToWindow_Diamond::ConsoleToWindow_Diamond() {

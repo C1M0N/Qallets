@@ -10,3 +10,24 @@ int LsKu::Math::Rand(int randMin, int randMax) {
   std::uniform_int_distribution<> dist(randMin, randMax);  // 均匀分布的随机数，范围从randMin到randMax
   return dist(gen);
 }
+
+int LsKu::Math::Facto(int n){
+  int result = 1;
+  for (int i = 1;i <= n;i++){
+    result *= i;
+  }
+  return result;
+}
+
+int LsKu::Math::Arra(int n, int m){
+  int result;
+  result = Facto(n) / Facto(n - m);
+  return result;
+}
+
+int LsKu::Math::Comb(int n, int m) {
+  int result;
+  result = Arra(n, m) / Facto(m);
+  return result;
+}
+

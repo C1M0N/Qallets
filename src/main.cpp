@@ -8,14 +8,14 @@ int main() {
   int main_tab_index = 0;
 
   /// 组件转化为模块并命名
-  auto Q1_lc1_test1 = DndDice();
+  auto Q1_lc1_twosum = TwoSum();
   auto Q2_lc2_test2 = ShowDiamond();
   auto I1_dnddice = DndDice();
   auto I2_diamond = ShowDiamond();
 
   /// 模块分类至不同的tab内
   auto question_tab = ftxui::Container::Tab({
-                                             Q1_lc1_test1,
+                                             Q1_lc1_twosum,
                                              Q2_lc2_test2
                                          }, &question_tab_index);
 
@@ -26,7 +26,7 @@ int main() {
 
   /// 编辑程序显示名称
   std::vector<std::string> question_tab_display = {
-      "测试1",
+      "两数之和",
       "测试2"
   };
 
@@ -80,15 +80,21 @@ int main() {
 
   /// UI渲染架构
   auto user_interface = ftxui::Renderer(mouse_focus, [&] {
-    return ftxui::hbox({
-               ftxui::vbox({
-                   main_tab_menu->Render(),
-                   main_tab->Render()
-               }),
-               ftxui::separator(),
-               main_tab_index == 0 ? question_tab->Render() : idea_tab->Render()
-           }) |
-           ftxui::border;
+    return
+        ftxui::vbox({
+            ftxui::hbox({
+                ftxui::text("Qallets") | ftxui::bold | ftxui::color(ftxui::Color(58,143,183)),
+                ftxui::filler(),
+                ftxui::text(version) | ftxui::color(ftxui::Color(90,90,90)),
+            }),
+            ftxui::hbox({
+                         ftxui::vbox({
+                             main_tab_menu->Render(),
+                             main_tab->Render()
+                         }),
+                         ftxui::separator(),
+                         main_tab_index == 0 ? question_tab->Render() : idea_tab->Render()
+                     }) | ftxui::border | ftxui::flex});
   });
 
   auto screen = ftxui::ScreenInteractive::Fullscreen();

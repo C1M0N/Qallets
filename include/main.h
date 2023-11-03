@@ -7,7 +7,10 @@
 
 #include <ftxui/component/screen_interactive.hpp>
 
-#include "../include/project/P1_Dice.h"
-#include "../include/project/P2_SnowDiamond.h"
+#include "../include/idea/I1_DndDice.h"
+#include "../include/idea/I2_Diamond.h"
+#include "../include/question/Q1_LC1_TwoSum.h"
+
+std::string version = "a.0.3-p7b16";
 
 #endif  // QALLETS_MAIN_H
